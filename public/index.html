@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-sky-50 text-gray-800">
+  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎂 Birthday Celebration Template 🎉</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  <style>
+    .avatar {
+      border-radius: none;
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+    .carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* fill frame while maintaining aspect ratio */
+      border-radius: 0.75rem; /* rounded-xl */
+      box-shadow: none;
+    }
+    body.noscroll {
+      overflow: hidden;
+    }
+    body {
+      background-color: #ffffff;
+      background-image: url("assets/images/bg.png");
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      min-height: 100vh; /* ensure full-screen coverage */
+    }
+    
+    /* 🎆 Fireworks layer */
+    #fireworks-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none; /* let clicks pass through */
+      z-index: 100;
+    }
+    .cute-font {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 2rem;
+      color: #ff6f61;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+  
+  <!-- Fireworks library -->
+  <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2/dist/index.umd.js"></script>
+</head>
+<body class="text-gray-800 flex flex-col items-center p-4 font-sans">
+  <div class="cute-font">🌟Happy Birthday!🌟</div>
+  <!-- Full-screen fireworks canvas target -->
+  <div id="fireworks-container"></div>
+
+  <!-- 🧑‍👩‍👦 Avatars (customize images and onclick IDs) -->
+  <section class="flex justify-center items-center space-x-2 md:space-x-6 mb-8 mt-4 hidden">
+    <img src="assets/images/person1.png" alt="Friend 1" class="avatar transition-transform hover:scale-105" onclick="playVoice('person1')" title="Friend 1" />
+    <img src="assets/images/person2.png" alt="Friend 2" class="avatar transition-transform hover:scale-105" onclick="playVoice('person2')" title="Friend 2" />
+    <img src="assets/images/celebrant.png" alt="Celebrant" class="avatar scale-110" title="Celebrant" />
+    <img src="assets/images/person3.png" alt="Friend 3" class="avatar transition-transform hover:scale-105" onclick="playVoice('person3')" title="Friend 3" />
+    <img src="assets/images/person4.png" alt="Friend 4" class="avatar transition-transform hover:scale-105" onclick="playVoice('person4')" title="Friend 4" />
+  </section>
+
+  <!-- 🎂🎉 Center Cake with Avatars Around -->
+  <section class="relative mx-auto my-2 mt-8 w-64 h-64 md:w-96 md:h-96">
+    <!-- Cake (smaller) -->
+    <img src="assets/images/cake.png" alt="Birthday Cake" title="Play Happy Birthday!"
+         class="w-24 md:w-32 absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform hover:scale-105 z-20"
+         onclick="playBirthday()" />
+    <!-- Center Celebrant (top center) -->
+    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
+      <img src="assets/images/celebrant.png" alt="Celebrant" class="avatar scale-110" title="Celebrant" />
+    </div>
+    <!-- Left side: Friend 1 & Friend 2 -->
+    <div class="absolute top-1/2 left-8 md:left-16 transform -translate-x-1/2 -translate-y-1/2 flex items-center z-10">
+      <img src="assets/images/person1.png" alt="Friend 1" class="avatar -mr-4" onclick="playVoice('person1')" />
+      <img src="assets/images/person2.png" alt="Friend 2" class="avatar" onclick="playVoice('person2')" />
+    </div>
+    <!-- Right side: Friend 3 & Friend 4 -->
+    <div class="absolute top-1/2 right-8 md:right-16 transform translate-x-1/2 -translate-y-1/2 flex items-center z-10">
+      <img src="assets/images/person3.png" alt="Friend 3" class="avatar -mr-4" onclick="playVoice('person3')" />
+      <img src="assets/images/person4.png" alt="Friend 4" class="avatar" onclick="playVoice('person4')" />
+    </div>
+  </section>
+
+  <!-- 🎧 Audio -->
+  <audio id="person1" src="assets/audio/person1.mp3"></audio>
+  <audio id="person2" src="assets/audio/person2.mp3"></audio>
+  <audio id="person3" src="assets/audio/person3.mp3"></audio>
+  <audio id="person4" src="assets/audio/person4.mp3"></audio>
+  <!-- Happy Birthday song -->
+  <audio id="birthday-song" src="assets/audio/happy_birthday.mp3"></audio>
+
+  <!-- 🖼️ Responsive Photo Carousel --> 
+  <h2 class="text-xl md:text-2xl font-bold cute-font drop-shadow mt-0 mb-2">Photo Memories</h2>
+  <section class="w-full max-w-md carousel relative overflow-hidden rounded-xl aspect-[4/3]">
+    <div id="slides" class="flex transition-all duration-700 w-full h-full">
+      <img src="assets/images/gallery/01.png" alt="Memory 1" onclick="openModal(this.src)" />
+      <img src="assets/images/gallery/02.png" alt="Memory 2" onclick="openModal(this.src)" />
+      <img src="assets/images/gallery/03.png" alt="Memory 3" onclick="openModal(this.src)" />
+      <img src="assets/images/gallery/04.png" alt="Memory 4" onclick="openModal(this.src)" />
+      <img src="assets/images/gallery/05.png" alt="Memory 5" onclick="openModal(this.src)" />
+    </div>
+
+    <!-- Navigation arrows -->
+    <button id="prevBtn" onclick="prevSlide()"
+            class="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-60 transition z-20">
+      &#10094;
+    </button>
+    <button id="nextBtn" onclick="nextSlide()"
+            class="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-60 transition z-20">
+      &#10095;
+    </button>
+  </section>
+
+<!-- 🔍 Fullscreen Image Modal with Close Button -->
+<div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+  <!-- Close button -->
+  <button onclick="closeModal()"
+          class="absolute top-4 right-4 text-white text-3xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70 transition">
+    ✕
+  </button>
+  <img id="lightbox-img" class="max-w-full max-h-full rounded shadow-xl cursor-pointer" onclick="closeModal()" />
+</div>
+
+
+  <!-- 📜 JavaScript -->
+  <script>
+    function playVoice(id) {
+      document.getElementById(id).play();
+    }
+
+    const slides = document.getElementById('slides');
+
+    /* Shuffle slide order so Dad and family photos are mixed */
+    (function shuffleSlides(container) {
+      const nodes = Array.from(container.children);
+      for (let i = nodes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [nodes[i], nodes[j]] = [nodes[j], nodes[i]];
+      }
+      // Re-append in shuffled order
+      nodes.forEach(node => container.appendChild(node));
+    })(slides);
+
+    const total = slides.children.length;
+    let index = 0;
+    let carouselTimer;
+    const step = 100 / total; // percentage shift per slide
+
+    // Make the track wide enough and each child exactly one viewport width
+    slides.style.width = `${total * 100}%`;
+    Array.from(slides.children).forEach(child => {
+      child.style.width = `${100 / total}%`;
+      child.style.flexShrink = '0';
+    });
+
+    function showSlide(idx) {
+      index = (idx + total) % total; // wrap
+      slides.style.transform = `translateX(-${index * step}%)`;
+    }
+
+    function nextSlide() {
+      showSlide(index + 1);
+      resetTimer();
+    }
+
+    function prevSlide() {
+      showSlide(index - 1);
+      resetTimer();
+    }
+
+    function startCarousel() {
+      carouselTimer = setInterval(() => {
+        showSlide(index + 1);
+      }, 3000); // change every 3 seconds
+    }
+
+    function resetTimer() {
+      clearInterval(carouselTimer);
+      startCarousel();
+    }
+
+    window.onload = startCarousel;
+
+    function openModal(src) {
+      const modal = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      modal.classList.remove('hidden');
+      document.body.classList.add('noscroll'); // prevent scroll
+    }
+
+    function closeModal() {
+      document.getElementById('lightbox').classList.add('hidden');
+      document.body.classList.remove('noscroll'); // restore scroll
+    }
+
+    // Play Happy Birthday song when cake is clicked
+    function playBirthday() {
+      const audio = document.getElementById('birthday-song');
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+        audio.currentTime = 0; // reset to start if clicked again
+      }
+    }
+
+    /* 🎆 Fireworks effect using fireworks-js */
+    // Load the library (already included via script tag above)
+    const fwContainer = document.getElementById('fireworks-container');
+    const fireworks = new Fireworks.default(fwContainer, {
+      autoresize: true,
+      opacity: 0.7,
+      acceleration: 1.03,
+      gravity: 1.4,
+      particles: 80,
+      traceSpeed: 10,
+      explosion: 5,
+      intensity: 5,
+      delay: { min: 30, max: 60 }, 
+      rocketsPoint: { min: 0, max: 100 }, // allow all across the width
+    });
+    fireworks.start();
+  </script>
+</body>
+</html>
